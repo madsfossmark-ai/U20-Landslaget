@@ -137,8 +137,8 @@ h1, h2, h3 { margin: 0; text-wrap: balance; }
 @media (max-width: 640px) {
   .tbl .hide-sm { display: none; }
   .t-games th:nth-child(5), .t-games td:nth-child(5), .t-games th:nth-child(n+7):nth-child(-n+9), .t-games td:nth-child(n+7):nth-child(-n+9) { display: none; }
-  .t-players th:nth-child(2), .t-players td:nth-child(2), .t-players th:nth-child(5), .t-players td:nth-child(5), .t-players th:nth-child(7), .t-players td:nth-child(7), .t-players th:nth-child(n+9), .t-players td:nth-child(n+9) { display: none; }
-  .t-att th:nth-child(6), .t-att td:nth-child(6) { display: none; }
+  .t-players th:nth-child(2), .t-players td:nth-child(2), .t-players th:nth-child(5), .t-players td:nth-child(5), .t-players th:nth-child(8), .t-players td:nth-child(8), .t-players th:nth-child(n+9), .t-players td:nth-child(n+9) { display: none; }
+  .t-att th:nth-child(7), .t-att td:nth-child(7) { display: none; }
   .tbl { font-size: 14px; }
   .lastbar .chip:nth-child(n+4) { display: none; }
   .kk-controls { flex-direction: column; align-items: stretch; }
@@ -444,7 +444,7 @@ html.is-fs .app { height: 100%; overflow-y: auto; -webkit-overflow-scrolling: to
 <script>
 /* Lesemodus: erstatter Claude-lagringen med data.json */
 window.PUBLIC = true;
-window.PUBLIC_UPDATED = "21.10.2026 kl. 21:05";
+window.PUBLIC_UPDATED = "21.10.2026 kl. 21:12";
 window.PUBLIC_CTX = {"id": "u20-nevza-2026", "name": "Norge U20 kvinner · NEVZA 2026", "our": "Norge", "prefix": "", "teams": ["Danmark", "England", "Finland", "Sverige"]};
 (function () {
   const dataP = fetch('data.json', { cache: 'no-cache' }).then((r) => r.json());
@@ -1122,9 +1122,9 @@ window.PUBLIC_CTX = {"id": "u20-nevza-2026", "name": "Norge U20 kvinner · NEVZA
     const attRows = Object.entries(st.att).sort((a, b) => b[1].n - a[1].n);
     h += '</div><div class="stat-block"><div class="label" style="color:var(--accent)">Angrep</div>';
     if (!attRows.length) h += '<div class="empty">Ingen angrep registrert.</div>';
-    else h += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Spiller</th><th>Ant.</th><th>Poeng</th><th>Feil</th><th>Blokk</th><th>Uttelling</th><th>Snitt</th></tr></thead><tbody>'
-      + attRows.map(([id, r]) => '<tr><td class="key">' + esc(pname(id)) + '</td><td>' + r.n + '</td><td>' + r.c2 + '</td><td>' + r.c0 + '</td><td>' + r.B + '</td><td>' + pct(r.c2, r.n) + '</td><td class="key">' + avgBar(1 + (r.c2 - r.c0 - r.B) / r.n, null, 'att', posOf(id)) + '</td></tr>').join('')
-      + '<tr class="total"><td>Lag</td><td>' + st.tAtt.n + '</td><td>' + st.tAtt.c2 + '</td><td>' + st.tAtt.c0 + '</td><td>' + st.tAtt.B + '</td><td>' + pct(st.tAtt.c2, st.tAtt.n) + '</td><td>' + avgBar(1 + (st.tAtt.c2 - st.tAtt.c0 - st.tAtt.B) / st.tAtt.n, null, 'att') + '</td></tr></tbody></table></div>';
+    else h += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Spiller</th><th>Ant.</th><th>Snitt</th><th>Poeng</th><th>Feil</th><th>Blokk</th><th>Uttelling</th></tr></thead><tbody>'
+      + attRows.map(([id, r]) => '<tr><td class="key">' + esc(pname(id)) + '</td><td>' + r.n + '</td><td class="key">' + avgBar(1 + (r.c2 - r.c0 - r.B) / r.n, null, 'att', posOf(id)) + '</td><td>' + r.c2 + '</td><td>' + r.c0 + '</td><td>' + r.B + '</td><td>' + pct(r.c2, r.n) + '</td></tr>').join('')
+      + '<tr class="total"><td>Lag</td><td>' + st.tAtt.n + '</td><td>' + avgBar(1 + (st.tAtt.c2 - st.tAtt.c0 - st.tAtt.B) / st.tAtt.n, null, 'att') + '</td><td>' + st.tAtt.c2 + '</td><td>' + st.tAtt.c0 + '</td><td>' + st.tAtt.B + '</td><td>' + pct(st.tAtt.c2, st.tAtt.n) + '</td></tr></tbody></table></div>';
 
     const t = st.tSrv;
     h += '</div><div class="stat-block"><div class="label" style="color:var(--accent)">Serve</div><div class="kpis">'
@@ -1157,8 +1157,8 @@ window.PUBLIC_CTX = {"id": "u20-nevza-2026", "name": "Norge U20 kvinner · NEVZA
     [['Mottak', L.rec], ['Angrep', L.att]].forEach(([t, rows]) => {
       const kind = t === 'Angrep' ? 'att' : 'rec';
       if (!rows || !rows.length) return;
-      h += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>' + t + '</th><th>Ant.</th><th>Score</th><th>Snitt</th></tr></thead><tbody>'
-        + rows.map((r) => '<tr><td class="key">' + esc(r.name) + '</td><td>' + r.n + '</td><td>' + r.sum + '</td><td class="key">' + avgBar(r.sum / r.n, null, kind, posByNr(r.nr)) + '</td></tr>').join('') + '</tbody></table></div>';
+      h += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>' + t + '</th><th>Ant.</th><th>Snitt</th><th>Score</th></tr></thead><tbody>'
+        + rows.map((r) => '<tr><td class="key">' + esc(r.name) + '</td><td>' + r.n + '</td><td class="key">' + avgBar(r.sum / r.n, null, kind, posByNr(r.nr)) + '</td><td>' + r.sum + '</td></tr>').join('') + '</tbody></table></div>';
     });
     return h;
   }
@@ -1532,10 +1532,10 @@ window.PUBLIC_CTX = {"id": "u20-nevza-2026", "name": "Norge U20 kvinner · NEVZA
       const recTot = pr.reduce((a, p) => a + p.rec, 0), minRec = Math.max(8, Math.round(recTot * 0.15));
       const pnum = (v) => v == null ? 0 : parseFloat(String(v).replace(',', '.')) || 0;
       const weak = t.name === usName(m) ? null : pr.filter((p) => p.rec >= minRec).sort((a, b) => (pnum(a.recAvg) - pnum(b.recAvg)) || ((b.recErr || 0) / b.rec - (a.recErr || 0) / a.rec))[0];
-      if (pr.length) s += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Mottak</th><th>Ant.</th><th>Feil</th><th>Snitt</th>' + (egen ? '<th>Spillb.</th>' : '<th>Pos.</th>') + '<th>Perf.</th></tr></thead><tbody>' + pr.map((p) => '<tr' + (p === weak ? ' class="weakest"' : '') + '><td class="key">' + esc(p.nr ? '#' + p.nr + ' ' : '') + esc(p.name) + (p === weak ? ' <span class="weak-tag">Svakest</span>' : '') + '</td><td>' + p.rec + '</td><td>' + (p.recErr ?? '–') + '</td><td class="key">' + avgBar(p.recAvg, esc(p.recAvg ?? '–')) + '</td>' + (egen ? '<td>' + esc(p.recPlay ?? '–') + '</td>' : '<td>' + esc(p.recPos ?? '–') + '</td>') + '<td>' + esc(p.recPerf ?? '–') + '</td></tr>').join('') + '</tbody></table></div>';
+      if (pr.length) s += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Mottak</th><th>Ant.</th><th>Snitt</th><th>Feil</th>' + (egen ? '<th>Spillb.</th>' : '<th>Pos.</th>') + '<th>Perf.</th></tr></thead><tbody>' + pr.map((p) => '<tr' + (p === weak ? ' class="weakest"' : '') + '><td class="key">' + esc(p.nr ? '#' + p.nr + ' ' : '') + esc(p.name) + (p === weak ? ' <span class="weak-tag">Svakest</span>' : '') + '</td><td>' + p.rec + '</td><td class="key">' + avgBar(p.recAvg, esc(p.recAvg ?? '–')) + '</td><td>' + (p.recErr ?? '–') + '</td>' + (egen ? '<td>' + esc(p.recPlay ?? '–') + '</td>' : '<td>' + esc(p.recPos ?? '–') + '</td>') + '<td>' + esc(p.recPerf ?? '–') + '</td></tr>').join('') + '</tbody></table></div>';
       if (weak) s += '<div class="code-legend"><span class="weak-tag">Svakest</span> lavest mottakssnitt blant spillere med minst ' + minRec + ' mottak.</div>';
       const pa = (t.players || []).filter((p) => p.att != null).sort((a, b) => b.att - a.att);
-      if (pa.length) s += '<div class="tbl-wrap"><table class="tbl t-att"><thead><tr><th>Angrep</th><th>Fors.</th><th>Poeng</th><th>Feil</th><th>Blokk.</th><th>Utt.</th><th>Snitt</th></tr></thead><tbody>' + pa.map((p) => '<tr><td class="key">' + esc(p.nr ? '#' + p.nr + ' ' : '') + esc(p.name) + '</td><td>' + p.att + '</td><td>' + p.kills + '</td><td>' + p.attErr + '</td><td>' + p.blocked + '</td><td>' + esc(p.kp ?? pct(p.kills, p.att)) + '</td><td class="key">' + (p.att ? avgBar(1 + (p.kills - p.attErr - p.blocked) / p.att, null, 'att', t.name === OUR ? posByNr(p.nr) : '') : '–') + '</td></tr>').join('') + '</tbody></table></div>';
+      if (pa.length) s += '<div class="tbl-wrap"><table class="tbl t-att"><thead><tr><th>Angrep</th><th>Fors.</th><th>Snitt</th><th>Poeng</th><th>Feil</th><th>Blokk.</th><th>Utt.</th></tr></thead><tbody>' + pa.map((p) => '<tr><td class="key">' + esc(p.nr ? '#' + p.nr + ' ' : '') + esc(p.name) + '</td><td>' + p.att + '</td><td class="key">' + (p.att ? avgBar(1 + (p.kills - p.attErr - p.blocked) / p.att, null, 'att', t.name === OUR ? posByNr(p.nr) : '') : '–') + '</td><td>' + p.kills + '</td><td>' + p.attErr + '</td><td>' + p.blocked + '</td><td>' + esc(p.kp ?? pct(p.kills, p.att)) + '</td></tr>').join('') + '</tbody></table></div>';
       const ps = (t.players || []).filter((p) => p.srv != null || p.pts != null || p.blocks != null);
       if (ps.length) s += '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Poeng og serve</th><th>Poeng</th><th>Serve</th><th>Ess</th><th>Feil</th><th>Blokk</th></tr></thead><tbody>' + ps.slice().sort((a, b) => (b.pts || 0) - (a.pts || 0) || (b.srv || 0) - (a.srv || 0)).map((p) => '<tr><td class="key">' + esc(p.nr ? '#' + p.nr + ' ' : '') + esc(p.name) + '</td><td class="key">' + (p.pts ?? '–') + '</td><td>' + (p.srv ?? '–') + '</td><td>' + (p.aces ?? '–') + '</td><td>' + (p.srvErr ?? '–') + '</td><td>' + (p.blocks ?? '–') + '</td></tr>').join('') + (T.pts != null ? '<tr class="total"><td>Lag</td><td>' + T.pts + '</td><td>' + (T.srv ?? '–') + '</td><td>' + (T.aces ?? '–') + '</td><td>' + (T.srvErr ?? '–') + '</td><td>' + (T.blocks ?? '–') + '</td></tr>' : '') + '</tbody></table></div>';
       return s + '</section>';
@@ -1711,11 +1711,11 @@ window.PUBLIC_CTX = {"id": "u20-nevza-2026", "name": "Norge U20 kvinner · NEVZA
     const prow = Object.values(P).map((p) => ({ ...p, name: pname(p.id), nr: (player(p.id) || {}).nr || '', games: p.games.size, recAvg: p.recN ? p.recS / p.recN : null, recPerf: p.recN ? p.recP / p.recN : null, attEff: p.attN ? 1 + (p.attK - p.attE - p.attB) / p.attN : null }));
     const k = SEASON.sortK, dir = SEASON.sortDir;
     prow.sort((a, b) => k === 'name' ? dir * a.name.localeCompare(b.name, 'nb') : (a[k] == null ? 1 : b[k] == null ? -1 : dir * (a[k] - b[k])));
-    const cols = [['name', 'Spiller'], ['games', 'Kamper'], ['recN', 'Mottak'], ['recAvg', 'Snitt'], ['recPerf', 'Perf.'], ['attN', 'Angrep'], ['attK', 'Poeng'], ['attEff', 'Snitt'], ['srvN', 'Serve'], ['srvE', 'Ess'], ['srvF', 'Feil']];
+    const cols = [['name', 'Spiller'], ['games', 'Kamper'], ['recN', 'Mottak'], ['recAvg', 'Snitt'], ['recPerf', 'Perf.'], ['attN', 'Angrep'], ['attEff', 'Snitt'], ['attK', 'Poeng'], ['srvN', 'Serve'], ['srvE', 'Ess'], ['srvF', 'Feil']];
     h += '<section class="panel" aria-labelledby="h-spillere"><div class="panel-head"><h2 id="h-spillere">Spillere hittil</h2><span class="status">Summert over alle førte kamper · trykk en kolonne for å sortere</span></div>';
     if (!prow.length) h += '<div class="empty">Ingen spillerregistreringer ennå.</div>';
     else h += '<div class="tbl-wrap"><table class="tbl t-players"><thead><tr>' + cols.map(([c, l]) => '<th aria-sort="' + (c === k ? (dir < 0 ? 'descending' : 'ascending') : 'none') + '"><button data-a="psort" data-k="' + c + '">' + l + '</button></th>').join('') + '</tr></thead><tbody>'
-      + prow.map((p) => '<tr class="clickrow" data-a="kkpick" data-id="' + esc(p.id) + '" title="Vis kamp for kamp"><td class="key">' + (p.nr ? '#' + esc(p.nr) + ' ' : '') + esc(p.name) + '</td><td>' + p.games + '</td><td>' + p.recN + '</td><td class="key">' + avgBar(p.recAvg, d2(p.recAvg)) + '</td><td>' + p0(p.recPerf) + '</td><td>' + p.attN + '</td><td>' + p.attK + '</td><td class="key">' + avgBar(p.attEff, d2(p.attEff), 'att', posOf(p.id)) + '</td><td>' + p.srvN + '</td><td>' + p.srvE + '</td><td>' + p.srvF + '</td></tr>').join('')
+      + prow.map((p) => '<tr class="clickrow" data-a="kkpick" data-id="' + esc(p.id) + '" title="Vis kamp for kamp"><td class="key">' + (p.nr ? '#' + esc(p.nr) + ' ' : '') + esc(p.name) + '</td><td>' + p.games + '</td><td>' + p.recN + '</td><td class="key">' + avgBar(p.recAvg, d2(p.recAvg)) + '</td><td>' + p0(p.recPerf) + '</td><td>' + p.attN + '</td><td class="key">' + avgBar(p.attEff, d2(p.attEff), 'att', posOf(p.id)) + '</td><td>' + p.attK + '</td><td>' + p.srvN + '</td><td>' + p.srvE + '</td><td>' + p.srvF + '</td></tr>').join('')
       + '</tbody></table></div><div class="code-legend">Trykk en spiller for å se henne kamp for kamp. Snitt og prosent er regnet av summen av alle registreringer, ikke snitt av kampsnitt.</div>';
     h += '</section><div class="code-legend">Egenført 0–1–2-koding fra benken. Kamper som ikke er ført i appen telles i resultatet, men ikke i snittene. Ikke det samme som NVBF/DataProject-tallene. ' + legendLink() + '</div></div>';
     return h;
@@ -2219,4 +2219,4 @@ window.PUBLIC_CTX = {"id": "u20-nevza-2026", "name": "Norge U20 kvinner · NEVZA
 })();
 </script>
 
-<footer class="pub-foot">Norge U20 kvinner, NEVZA 2026 i Rovaniemi (EM-kvalifisering). Statistikk ført fra benken. Oppdatert 21.10.2026 kl. 21:05.</footer></body></html>
+<footer class="pub-foot">Norge U20 kvinner, NEVZA 2026 i Rovaniemi (EM-kvalifisering). Statistikk ført fra benken. Oppdatert 21.10.2026 kl. 21:12.</footer></body></html>
